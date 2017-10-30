@@ -4,6 +4,7 @@ import traceback
 
 from docutils.parsers.rst import Directive
 from past.builtins import basestring
+from prance import ResolvingParser
 
 from sphinx.locale import _
 
@@ -35,10 +36,7 @@ class SwaggerV2DocDirective(Directive):
             relfn, absfn = env.relfn2path(url)
             env.note_dependency(relfn)
 
-            with open(absfn) as fd:
-                content = fd.read()
-
-            return json.loads(content)
+            return ResolvingParser(absfn).specification
         else:
             s = requests.Session()
             s.mount('file://', FileAdapter())
