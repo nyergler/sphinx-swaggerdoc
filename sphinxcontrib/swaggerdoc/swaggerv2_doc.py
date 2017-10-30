@@ -233,7 +233,8 @@ class SwaggerV2DocDirective(Directive):
                     section = self.create_section(tag_name)
 
                     for path, method_type, method in methods:
-                        section += self.make_method(path, method_type, method)
+                        if method_type.lower() in ('get', 'post', 'put', 'delete'):
+                            section += self.make_method(path, method_type, method)
 
                     entries.append(section)
 
